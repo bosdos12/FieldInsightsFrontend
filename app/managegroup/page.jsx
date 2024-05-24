@@ -13,14 +13,14 @@ export default function Home() {
   const [allGroups, setAllGroups] = useState([]);
   
   const [deviceName, setDeviceName] = useState("");
-
-
+  const [deviceGroup, setDeviceGroup] = useState("");
 
 
   useEffect(() => {
 
     // Check if the group id exists in the localstorage
     const groupID = localStorage.getItem("groupID");
+    setDeviceGroup(groupID);
 
     if (!groupID || groupID.length <= 0) {
       alert("No group selected");
@@ -55,13 +55,10 @@ export default function Home() {
 
   
   const createActuator = async () => {
-    alert("craet actuator!");
-
-    console.log(deviceName);
-    const deviceGroup = document.getElementById("groupselector").value
+    alert("create actuator!");
 
     try {
-      const response = await fetch("/api/createactuator", {
+      const response = await fetch("http://localhost:3001/api/createactuator", {
         method: "POST",
         headers: {
           "content-type": "application/json"
@@ -72,11 +69,12 @@ export default function Home() {
         })
       });
       if (response.status === 200) {
-        window.location.replace();
+        alert("nice!");
+        window.location.reload();
       } else {
         const json_res = await response.json();
         alert(json_res.message);
-      }
+      };
     } catch (err) {
       console.log(err);
       alert("Network connectivity issues.");
@@ -181,12 +179,17 @@ export default function Home() {
               marginTop: "156px"
             }} value={deviceName} onChange={(e) => setDeviceName(e.target.value)} placeholder="Group Name" type="text" className="modal-input"/>
             
-            <select id="groupselector" className="modal-input">
+            {/* <select id="groupselector" className="modal-input">
               {allGroups.map(item => {
                 console.log(item);
                 return <option key={item.groupID} value={item.groupID}>{item.name}</option>
               })}
-            </select>
+            </select> */}
+            <p className="medium__text" style={{
+              marginTop: "26px",
+              marginLeft: "auto",
+              marginRight: "auto"
+            }}>{deviceGroup}</p>
 
             <div className="modal-uploadbutton" onClick={createActuator}>
               <p className="medium__text white__text">
