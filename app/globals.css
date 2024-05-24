@@ -18,6 +18,11 @@ body {
   font-size: 24px;
   margin: 0px;
 }
+.small__text {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  margin: 0px;
+}
 .large__text {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 40px;
@@ -171,6 +176,7 @@ body {
   height: 100%;
   border-top-right-radius: 26px;
   /* background-color: purple; */
+  position: relative;
 }
 .metricarea-basicdata {
   width: 90%;
@@ -196,8 +202,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin-top: -36px;
 }
-
-
 .modal-background {
   width: 100%;
   height: 100vh;
@@ -208,8 +212,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  z-index: 99999;
 }
-
 .modal {
   width: 500px;
   height: 600px;
@@ -231,7 +235,6 @@ body {
   flex-direction: row;
   justify-content: space-between;
 }
-
 .modal-exit {
   width: 32px;
   height: 32px;
@@ -248,7 +251,6 @@ body {
 .modal-exit:hover {
   opacity: 0.7;
 }
-
 .modal-input {
   width: 336px;
   font-size: 24px;
@@ -261,8 +263,6 @@ body {
   text-align: center;
   margin-top: 26px;
 }
-
-
 .modal-uploadbutton {
   width: 120px;
   height: 48px;
@@ -281,10 +281,43 @@ body {
 .modal-uploadbutton:hover {
   opacity: 0.7;
 }
-
 .hookmanager {
   width: 100%;
   height: 70vh;
   background-color: #ddd;
   margin-top: 26px;
+  border-radius: 26px;
+  padding-top: 26px;
+}
+.hookmanager-single {
+  width: 90%;
+  height: 80px;
+  border: 1px solid;
+  border-radius: 26px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 26px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.hookmanager-single-container {
+  width: 17%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
+
+.actuatoritem {
+  width: 100%;
+  height: 80px;
+  max-width: 1220px;
+  border: 1px solid #ddd;
+  border-radius: 26px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 54px;
 }

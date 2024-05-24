@@ -1,5 +1,5 @@
 "use client";
-import { SensorItem, Header, GroupItem } from "@/Components";
+import { SensorItem, Header, GroupItem, ActuatorItem } from "@/Components";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
@@ -154,7 +154,9 @@ export default function Home() {
 
       <div className="horizontal__split">
 
-        <div className="horizontal__split-single left">
+        <div className="horizontal__split-single left" style={{
+          paddingTop: "26px"
+        }}>
           {/* <div style={{
             width: "100%",
             height: "fit-content",
@@ -165,9 +167,18 @@ export default function Home() {
 
           {displayedDevices.map(item => 
               typeof item.metricIndicator === "string" ? (
-              <SensorItem key={item._id} name={item.name}/>
+              <SensorItem
+                key={item._id}
+                sensorID={item._id}
+                name={item.name}
+                metricIndicator={item.metricIndicator}
+              />
             ) : (
-              <h1 key={item._id}>{item.name}</h1>
+              <ActuatorItem
+                key={item._id}
+                actuatorID={item._id}
+                name={item.name}
+              />
             )
           )}
 
@@ -186,7 +197,50 @@ export default function Home() {
           </div> */}
 
           <div className="hookmanager">
+            <div style={{
+              width: "100%",
+              height: "100px"
+            }}>
 
+            </div>
+            <div className="hookmanager-single">
+
+              <div className="hookmanager-single-container">
+                <p className="small__text">Sensor</p>
+                <select name="" id="">
+                  <option value="">Sensor</option>
+                </select>
+              </div>
+
+
+              <div className="hookmanager-single-container">
+                <p className="small__text">Condition</p>
+                <select name="" id="">
+                  <option value="lessthen">lessthen</option>
+                  <option value="morethen">lessthen</option>
+                </select>
+              </div>
+
+
+              <div className="hookmanager-single-container">
+                <p className="small__text">Conditional</p>
+                <input type="number" placeholder="Comparison value" />
+              </div>
+
+              <div className="hookmanager-single-container">
+                <p className="small__text">Actuator</p>
+                <select name="" id="">
+                  <option value="">Actuator</option>
+                </select>
+              </div>
+
+              
+              <div className="hookmanager-single-container">
+                <p className="small__text">Run Time (s)</p>
+                <input type="number" />
+              </div>
+
+            </div>
           </div>
 
         </div>
@@ -201,7 +255,7 @@ export default function Home() {
               <p className="medium__text" style={{
                 marginTop: "26px"
               }}>Create new Sensor.</p>
-              <div className="modal-exit" onClick={() => setActuatorModalVisible(false)}>
+              <div className="modal-exit" onClick={() => setSensorModalVisible(false)}>
                 <p className="medium__text white__text" style={{
                   fontWeight: "bold"
                 }}>x</p>
