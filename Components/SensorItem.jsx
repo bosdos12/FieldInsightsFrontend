@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import LineChart from './LineChart'; // Ensure the correct import path
 
-const SensorItem = () => {
+const SensorItem = ({
+  name
+}) => {
   const [metricsData, setMetricsData] = useState([]);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const SensorItem = () => {
         </div>
         <div className="sensoritem-top-metricarea">
           <div className="metricarea-basicdata">
-            <p className="medium__text" style={{ marginTop: "16px" }}>Thename.</p>
+            <p className="medium__text" style={{ marginTop: "16px" }}>{name}</p>
             <p className="medium__text" style={{ marginTop: "16px" }}>Sensor</p>
             <p className="medium__text" style={{ marginTop: "16px" }}>12.12.12</p>
           </div>

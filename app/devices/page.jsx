@@ -41,7 +41,7 @@ export default function Home() {
           </div>
 
           {displayedDevices.map(item => (
-            <SensorItem key={item._id} />
+            <SensorItem key={item._id} name={item.name}/>
           ))}
 
         </div>
@@ -57,6 +57,8 @@ export default function Home() {
           }}>
             <p className="medium__text" style={{marginTop: "26px"}}>Map Data</p>
           </div>
+          <div className="mapdata"></div>
+
         </div>
 
       </div>
