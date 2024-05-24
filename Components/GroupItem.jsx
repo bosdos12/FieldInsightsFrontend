@@ -7,7 +7,7 @@ const GroupItem = ({name, devicesCount, creationDate, groupID}) => {
   const navigateToGroupPage = () => {
     // Save groupID to localstorage for fetching group data once in the page;
     localStorage.setItem("groupID", groupID);
-
+    localStorage.setItem("displayedGroupName", name);
     window.location.href = "/managegroup";
   }
 

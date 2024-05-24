@@ -15,12 +15,15 @@ export default function Home() {
   const [deviceName, setDeviceName] = useState("");
   const [deviceGroup, setDeviceGroup] = useState("");
 
+  const [displayedGroupName, setDisplayedGroupName] = useState("");
 
   useEffect(() => {
 
     // Check if the group id exists in the localstorage
     const groupID = localStorage.getItem("groupID");
+    const nameofgroup = localStorage.getItem("displayedGroupName");
     setDeviceGroup(groupID);
+    setDisplayedGroupName(nameofgroup);
 
     if (!groupID || groupID.length <= 0) {
       alert("No group selected");
@@ -82,7 +85,34 @@ export default function Home() {
   };
 
   const createSensor = async () => {
-    alert("create sensor");
+    const metricIndicatorInput = document.getElementById("metricindicatorinput").value;
+    console.log(metricIndicatorInput);
+    const metricPeriod = document.getElementById("metricperiodinput").value;
+    console.log(metricPeriod);
+    try {
+      const response = await fetch("http://localhost:3001/api/createsensor", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          name: deviceName,
+          groupID: deviceGroup,
+          metricIndicator: metricIndicatorInput,
+          period: metricPeriod
+        })
+      });
+      if (response.status === 200) {
+        alert("nice!");
+        window.location.reload();
+      } else {
+        const json_res = await response.json();
+        alert(json_res.message);
+      };
+    } catch (err) {
+      console.log(err);
+      alert("Network connectivity issues.");
+    }
   };
 
 
@@ -94,7 +124,7 @@ export default function Home() {
       <div className="titleandcreate">
         <p className="medium__text" style={{
           marginLeft: "48px"
-        }}>Devices</p>
+        }}>Devices of {displayedGroupName} group.</p>
         <div className="titleandcreate-right">
           <p className="medium__text" style={{
             marginRight: "48px"
@@ -133,9 +163,13 @@ export default function Home() {
             <p className="medium__text" style={{marginTop: "26px"}}>Devices</p>
           </div> */}
 
-          {displayedDevices.map(item => (
-            <SensorItem key={item._id} name={item.name}/>
-          ))}
+          {displayedDevices.map(item => 
+              typeof item.metricIndicator === "string" ? (
+              <SensorItem key={item._id} name={item.name}/>
+            ) : (
+              <h1 key={item._id}>{item.name}</h1>
+            )
+          )}
 
         </div>
         
@@ -160,14 +194,13 @@ export default function Home() {
       </div>
 
 
-
-      {actuatorModalVisible && (
+      {sensorModalVisible && (
         <div className="modal-background">
           <div className="modal">
             <div className="modal-top__container">
               <p className="medium__text" style={{
                 marginTop: "26px"
-              }}>Create new device.</p>
+              }}>Create new Sensor.</p>
               <div className="modal-exit" onClick={() => setActuatorModalVisible(false)}>
                 <p className="medium__text white__text" style={{
                   fontWeight: "bold"
@@ -177,7 +210,61 @@ export default function Home() {
 
             <input style={{
               marginTop: "156px"
-            }} value={deviceName} onChange={(e) => setDeviceName(e.target.value)} placeholder="Group Name" type="text" className="modal-input"/>
+            }} value={deviceName} onChange={(e) => setDeviceName(e.target.value)} placeholder="Sensor Name" type="text" className="modal-input"/>
+            
+            
+            <select name="" id="metricindicatorinput" className="modal-input">
+              <option value="°C">Air Temperature (°C)</option>
+              <option value="M(%)">Moisture Percentage</option>
+              <option value="H(%)">Humidity (%)</option>
+              <option value="Lux">Light Intensity (LUX)</option>
+              <option value="Co2 PPM">Carbon Dioxide (PPM)</option>
+              <option value="PH">Soil PH</option>
+              <option value="w(m/s)">Wind (m/s)</option>
+              <option value="EC">Electrical Conductivitity`</option>
+            </select>
+
+            <input placeholder="Metric Period (Seconds)" type="number" id="metricperiodinput" className="modal-input"/>
+            {/* <select id="groupselector" className="modal-input">
+              {allGroups.map(item => {
+                console.log(item);
+                return <option key={item.groupID} value={item.groupID}>{item.name}</option>
+              })}
+            </select> */}
+            <p className="medium__text" style={{
+              marginTop: "26px",
+              marginLeft: "auto",
+              marginRight: "auto"
+            }}>{deviceGroup}</p>
+
+            <div className="modal-uploadbutton" onClick={createSensor}>
+              <p className="medium__text white__text">
+                Upload
+              </p>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+
+      {actuatorModalVisible && (
+        <div className="modal-background">
+          <div className="modal">
+            <div className="modal-top__container">
+              <p className="medium__text" style={{
+                marginTop: "26px"
+              }}>Create new Actuator.</p>
+              <div className="modal-exit" onClick={() => setActuatorModalVisible(false)}>
+                <p className="medium__text white__text" style={{
+                  fontWeight: "bold"
+                }}>x</p>
+              </div>
+            </div>
+
+            <input style={{
+              marginTop: "156px"
+            }} value={deviceName} onChange={(e) => setDeviceName(e.target.value)} placeholder="Actuator Name" type="text" className="modal-input"/>
             
             {/* <select id="groupselector" className="modal-input">
               {allGroups.map(item => {
