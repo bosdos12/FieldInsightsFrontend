@@ -7,7 +7,7 @@ const SensorItem = ({
 }) => {
   const [metricsData, setMetricsData] = useState([]);
   const [testData, setTestData] = useState([]);
-  const [singleMetricDisplay, setSingleMetricDisplay] = useState([]);
+  const [singleMetricDisplay, setSingleMetricDisplay] = useState(0);
 
   useEffect(() => {
     // Simulate fetching data from API
@@ -29,7 +29,7 @@ const SensorItem = ({
         const json_res = await response.json();
         console.log(json_res);
         if (response.status === 200) {
-          const formattedData = json_res.map((data, index) => {
+          const formattedData = json_res.reverse().map((data, index) => {
             const [hours, minutes, seconds] = new Date(data.metricTime).toISOString().substr(11, 8).split(':');
             return ({
               time: `${seconds}:${minutes}:${hours}`,
@@ -63,7 +63,7 @@ const SensorItem = ({
             <p className="metricarea-livemetric">{singleMetricDisplay} {metricIndicator}</p>
           </div>
           <div className="metricarea-basicdata" style={{
-            position: "absolute",
+            position: "absolute",   
             right: "5%",
             bottom: "20px",
             left: "auto",
